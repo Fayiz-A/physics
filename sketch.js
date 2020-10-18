@@ -13,21 +13,11 @@ function setup() {
   engine = Engine.create();
   world = engine.world;
 
+  angleMode(RADIANS);
+
   ground = new Ground(displayWidth/2, displayHeight-100, displayWidth, 40);
 
-  box = new Box(displayWidth/2, displayHeight-400, 50, 50);
-
-  // velocityButton = new Clickable();
-  // velocityButton.locate(200, 40);
-  // velocityButton.color = 'green';
-  // velocityButton.text = 'Change velocity';
-
-  // velocityButton.onPress = function() {
-  //   Matter.Body.setVelocity(box.body, {
-  //     x: 2,
-  //     y: 3
-  //   })
-  // }
+  box = new Box(displayWidth/2, displayHeight-500, 50, 50);
 
   velocityButton = new PhysicsButton(220, 40, 'Change velocity', () => {
     Matter.Body.setVelocity(box.body, {
@@ -36,12 +26,23 @@ function setup() {
     })
   });
 
-  restitutionButton = new PhysicsButton(320, 40, 'Change Restitution', () => {
-    box.body.restitution = 2;
+  restitutionButton = new PhysicsButton(460, 40, 'Change Restitution', () => {
+    box.body.restitution == 2 ? box.body.restitution = 0.1:box.body.restitution = 2;
   });  
 
-  angleButton = new PhysicsButton(420, 40, 'Change Angle', () => {
-    Matter.Body.setAngle(box.body, box.body.angle+=10)
+  angleButton = new PhysicsButton(700, 40, 'Change Angle', () => {
+    Matter.Body.setAngle(box.body, box.body.angle+10)
+  });
+
+  airFrictionButton = new PhysicsButton(220, 120, 'Change Air Friction', () => {
+    print(box.body.frictionAir)
+    box.body.frictionAir == 0.01 ? box.body.frictionAir = 0.1:box.body.frictionAir = 0.01
+  });
+
+  massButton = new PhysicsButton(460, 120, 'Change Mass', () => {
+    print('mass =' + box.body.mass)
+
+    box.body.mass == 5.0 ? box.body.mass = 0.1:box.body.mass = 5.0
   });
 }
 
@@ -57,6 +58,8 @@ function draw() {
   velocityButton.display();
   restitutionButton.display();
   angleButton.display();
+  airFrictionButton.display();
+  massButton.display();
 
   drawSprites();
 }
